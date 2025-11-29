@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use App\Models\User;
-use App\userStatus;
+use Illuminate\Support\Facades\Hash;
+
 
 
 class AuthController extends Controller
@@ -60,15 +61,25 @@ class AuthController extends Controller
             'password' => $request->password,
         );
         if (Auth::attempt($credentials)) {
-            //check if user is active
-            if (Auth::user()->status == userStatus::Inactive) {
+            // check account status
+            if (Auth::user()->status == 'Inactive') {
                 Auth::logout();
                 $request->session()->invalidate();
                 $request->session()->regenerateToken();
-                return redirect
+                return redirect()->route('admin.login')->with(['fail' => 'Your account is inactive. Please contact support at (support@example.com) for further assistance.']);
+            } elseif (Auth::user()->status == 'Pending') {
+                Auth::logout();
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+                return redirect()->route('admin.login')->with(['fail' => 'Your account is pending approval. Please wait for an administrator to activate your account.']);
             }
 
+            // redirect user to dashboard
+            return redirect()->route('admin.dashboard');
+        } else {
 
+            return redirect()->route('admin.login')->withInput()->with(['fail' => 'incorrect password. Please try again.']);
         }
+
 }
 }

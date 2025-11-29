@@ -13,4 +13,13 @@ class AdminController extends Controller
         ];
         return view('back.pages.dashboard', $data);
     }
+
+
+    // admin logout method
+    public function adminLogout(Request $request){
+        auth()->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('admin.login') ->with('success', 'You have been logged out successfully.');
+    } 
 }

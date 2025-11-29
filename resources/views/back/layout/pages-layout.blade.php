@@ -48,18 +48,6 @@
 
 	</head>
 	<body>
-		<div class="pre-loader">
-			<div class="pre-loader-box">
-				<div class="loader-logo">
-					<img src="/back/vendors/images/deskapp-logo.svg" alt="" />
-				</div>
-				<div class="loader-progress" id="progress_div">
-					<div class="bar" id="bar1"></div>
-				</div>
-				<div class="percent" id="percent1">0%</div>
-				<div class="loading-text">Loading...</div>
-			</div>
-		</div>
 
 		<div class="header">
 			<div class="header-left">
@@ -243,9 +231,12 @@
 							<a class="dropdown-item" href="faq.html"
 								><i class="dw dw-help"></i> Help</a
 							>
-							<a class="dropdown-item" href="login.html"
+							<a class="dropdown-item" href="{{ route('admin.logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();	"
 								><i class="dw dw-logout"></i> Log Out</a
 							>
+							<form id="logout-form" action="{{ route('admin.logout') }}" method="POST" class="d-none">
+								@csrf
+							</form>	
 						</div>
 					</div>
 				</div>

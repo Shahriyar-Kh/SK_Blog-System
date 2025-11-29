@@ -49,6 +49,9 @@ Route::prefix('admin')
                     // Dashboard Page
                     Route::get('/dashboard', 'adminDashboard')
                         ->name('dashboard');
+                    // add logout route
+                    Route::post('/logout', 'adminLogout')
+                        ->name('logout');
                 });
             });
     });
