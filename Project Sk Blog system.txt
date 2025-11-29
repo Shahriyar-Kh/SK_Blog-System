@@ -1,0 +1,50 @@
+Starting new Project Blog system using Laravel
+
+1. installation Setup and virtual host
+
+Globally install  =>composer global require laravel/installer
+then new project 
+Laravel new example-app
+
+
+
+2 Set up development and Database 
+2.1 add the user feilds in Create user table in migration file
+2.2 add this fields into user model files
+2.3 now run php artisan migrate commond
+
+
+3. Orginize Project fulders and Routes
+3.1 create two fulder inside public fulder front and back
+3.2 two fulder inside views fron and back then two fulders create inside back layout and pages then two files create inside layout auth.layout.blade.php and pages.layout.blade.php and one fulder and one file created inside pages auth fulder and dashboard.blade.php file and then create two file inside auth fulder login.blade.php and forget.blade.php 
+
+3.3  Create Two Controllers AuthController and adminController
+ 3.3.1 add these controller into web.php routes
+and add the routes for both controller
+
+ 3.3.2 now write logics for both controller 
+	inside authController create methods loginForm and forgotForm
+	inside adminController create methods adminDashboard and 
+
+
+4. 	download desktop admin dashboard
+
+4.1 copy the src and vendors fulder from desktopapp and past the project public fulder 
+  
+4.2 past the soures code of blank page into pages-layout file
+
+some changing in the code add @yeild into title etc
+
+4.3 add two routes for testing layout
+
+4.4 create the two files for above routes example-page.blade.php inside the views and example-auth.blade.php inside front folder
+
+
+
+4.5 go to the login page and copy the sorce code and past the custome file 
+
+auth-layout page
+
+
+--------------------------------------------------------------
+Date : 19/11/2025
