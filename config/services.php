@@ -35,7 +35,7 @@ return [
         ],
     ],
 
-    'custom_mail' => [
+    'mail' => [
         'mailer' => env('CMAIL_MAILER', 'smtp'),
         'host' => env('CMAIL_HOST', 'smtp.gmail.com'),
         'port' => env('CMAIL_PORT', 587),

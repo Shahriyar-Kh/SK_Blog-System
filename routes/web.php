@@ -37,7 +37,7 @@ Route::prefix('admin')
                         ->name('forgot-password');
 
                         // add forgot password  routes 
-                        Route::post('/send-reset-link', 'sendResetLink')->name('send-reset-link');
+                        Route::post('/send-reset-link', 'sendPasswordResetLink')->name('send-reset-link');
                         Route::get('/reset-password/{token}', 'resetPasswordForm')->name('reset-password-form');
 
                         
