@@ -21,7 +21,7 @@ Route::prefix('admin')
         // -----------------------------------------
         // Guest Admin Routes (login, forgot, etc.)
         // -----------------------------------------
-        Route::middleware([])
+        Route::middleware(['guest'])
             ->group(function () {
 
                 Route::controller(AuthController::class)->group(function () {
@@ -35,13 +35,19 @@ Route::prefix('admin')
                     // Forgot Password Page
                     Route::get('/forgot-password', 'forgotForm')
                         ->name('forgot-password');
+
+                        // add forgot password  routes 
+                        Route::post('/send-reset-link', 'sendResetLink')->name('send-reset-link');
+                        Route::get('/reset-password/{token}', 'resetPasswordForm')->name('reset-password-form');
+
+                        
                 });
             });
 
         // -----------------------------------------
         // Authenticated Admin Routes (dashboard)
         // -----------------------------------------
-        Route::middleware([])
+        Route::middleware(['auth'])
             ->group(function () {
 
                 Route::controller(AdminController::class)->group(function () {

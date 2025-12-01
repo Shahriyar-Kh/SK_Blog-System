@@ -35,4 +35,17 @@ return [
         ],
     ],
 
+    'custom_mail' => [
+        'mailer' => env('CMAIL_MAILER', 'smtp'),
+        'host' => env('CMAIL_HOST', 'smtp.gmail.com'),
+        'port' => env('CMAIL_PORT', 587),
+        'username' => env('CMAIL_USERNAME'),
+        'password' => env('CMAIL_PASSWORD'),
+        'encryption' => env('CMAIL_ENCRYPTION', 'tls'),
+        'from' => [
+            'address' => env('CMAIL_FROM_ADDRESS'),
+            'name' => env('CMAIL_FROM_NAME'),
+        ],
+    ],
+
 ];
