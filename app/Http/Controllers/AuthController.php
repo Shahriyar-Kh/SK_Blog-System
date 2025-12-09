@@ -126,10 +126,11 @@ public function sendPasswordResetLink(Request $request)
     }
     // Create clickable link
     $actionLink=route('admin.reset-password-form',['token'=>$token]);
-    $data=array(
+    $data=[
+
         'name'=>$user->name,
         'actionLink'=>$actionLink
-    );
+    ];
     $mail_body=view('components.email-templates.forgot-template',$data)->render();
     $mail_config=array(
         'recipient_address'=>$user->email,
@@ -145,5 +146,70 @@ public function sendPasswordResetLink(Request $request)
 
 
 } //end forgotPasswordLink method
+// method to show reset password form
+public function resetPasswordForm($token)
+{
+  // check if token exists
+    $tokenData = DB::table('password_reset_tokens')->where('token', $token)->first();  
 
+    if (!$tokenData) {
+        return redirect()->route('admin.forgot-password')->with(['fail' => 'Invalid or expired password reset token. Please request a new password reset link.']);
+    }
+
+    // show reset password form
+    return view('back.pages.auth.reset-password-form', ['token' => $token]);
+}
+
+// method to handle reset password submission
+public function resetPasswordHandler(Request $request)
+{
+    // validate new password
+    $request->validate([
+        'new_password' => 'required|min:6|required_with:new_password_confirmation|same:new_password_confirmation',
+        'new_password_confirmation' => 'required',
+    ]);
+    // check if token exists
+    $tokenData = DB::table('password_reset_tokens')->where('token', $request->token)->first();
+
+    // get user details
+    $user = User::where('email', $tokenData->email)->first();
+
+    // update user password
+    User::where('email', $user->email)->update([
+        'password' => Hash::make($request->new_password)
+    ]);
+
+    // send notification email about password change
+    $data=[
+        'name'=>$user->name,
+        'email'=>$user->email,
+        'new_password'=>$request->new_password
+    ];
+
+    // prepare email
+    $mail_body=view('components.email-templates.password-change-template',$data)->render();
+
+    // mail configuration
+    $mail_config=array(
+        'recipient_address'=>$user->email,
+        'recipient_name'=>$user->name,
+        'subject'=>'Your Password Has Been Changed',
+        'body'=>$mail_body
+    );
+    
+    // send email notification
+
+    if (CMail::sendMail($mail_config)) {
+        // delete the token
+        DB::table('password_reset_tokens')->where([
+            'email' => $tokenData->email,
+            'token' => $tokenData->token
+            ])->delete();
+
+        return redirect()->route('admin.login')->with(['success' => 'Your password has been successfully reset. You can now log in with your new password.']);
+    } else {
+        return redirect()->route('admin.reset-password-form', ['token' => $request->token])->with(['fail' => 'Unable to send confirmation email. Please try again later.']);
+    }
+
+ }
 }

@@ -40,6 +40,8 @@ Route::prefix('admin')
                         Route::post('/send-reset-link', 'sendPasswordResetLink')->name('send-reset-link');
                         Route::get('/reset-password/{token}', 'resetPasswordForm')->name('reset-password-form');
 
+                        // add reset password submission route
+                        Route::post('/reset-password', 'resetPasswordHandler')->name('reset-password-submit');
                         
                 });
             });
