@@ -155,6 +155,18 @@ public function resetPasswordForm($token)
     if (!$tokenData) {
         return redirect()->route('admin.forgot-password')->with(['fail' => 'Invalid or expired password reset token. Please request a new password reset link.']);
     }
+    else{
+        // check if token is not expired (valid for 15 minutes)
+        $diffMins=Carbon::createFromFormat('Y-m-d H:i:s',$tokenData->created_at)
+        ->diffInMinutes(Carbon::now());
+        if ($diffMins > 15) {
+         return redirect()->route('admin.forgot-password')->with(['fail' => 'Password reset token has expired. Please request a new password reset link.']);
+        }
+        $data=[
+            'PageTitle'=>'Reset Password',
+            'token'=>$token
+        ];
+    }
 
     // show reset password form
     return view('back.pages.auth.reset-password-form', ['token' => $token]);

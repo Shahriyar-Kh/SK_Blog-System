@@ -105,7 +105,7 @@
     <div class="btn-container">
       <a href="{{$actionLink}}" target="_blank">Reset Password</a>
     </div>
-
+    <p class="text">This password reset link is valid for the next 15 minutes.</p>
     <p class="text">
       If this wasn’t you, simply ignore this message.  
       Your password will stay the same.
